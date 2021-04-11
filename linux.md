@@ -1,0 +1,142 @@
+```shell
+
+
+# 查看文件被那些进程调用使用
+ldt@ldt-PC:~$ fuser -v /mnt/sdc1
+                     用户     进程号 权限   命令
+/mnt/sdc1:           root     kernel mount /mnt/sdc1
+                     ldt       15347 ..c.. bash
+ldt@ldt-PC:~$ ps -ef | grep 15347
+ldt      15347  5410  0 18:13 pts/1    00:00:00 /bin/bash
+ldt      15450  5418  0 18:15 pts/0    00:00:00 grep 15347
+
+
+# 查看进程打开了那些文件
+ldt@ldt-PC:~$ lsof /home/ldt/firefox/firefox-bin
+COMMAND    PID USER  FD   TYPE DEVICE SIZE/OFF     NODE NAME
+firefox-b 5789  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5843  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5882  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5887  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5898  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5912  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5934  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5942  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+Web\x20Co 5974  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+WebExtens 6046  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+RDD\x20Pr 6117  ldt txt    REG    8,7   507472 10751436 /home/ldt/firefox/firefox-bin
+
+#列出所有网络连接
+ldt@ldt-PC:~$ lsof -i [tcp]
+COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+firefox-b 5789  ldt   52u  IPv4 140955      0t0  TCP ldt-PC:52718->ec2-54-213-36-182.us-west-2.compute.amazonaws.com:https (ESTABLISHED)
+#列出某个进程号
+ldt@ldt-PC:~$ lsof -p 1
+COMMAND PID USER   FD      TYPE DEVICE SIZE/OFF NODE NAME
+systemd   1 root  cwd   unknown                      /proc/1/cwd (readlink: Permission denied)
+systemd   1 root  rtd   unknown                      /proc/1/root (readlink: Permission denied)
+systemd   1 root  txt   unknown                      /proc/1/exe (readlink: Permission denied)
+systemd   1 root NOFD                                /proc/1/fd (opendir: Permission denied)
+
+
+```
+
++ 挂载相关命令
+
+```shell
+#查看挂载点
+
+ldt@ldt-PC:~$ df -h
+文件系统        容量  已用  可用 已用% 挂载点
+udev            3.9G  4.0K  3.9G    1% /dev
+tmpfs           792M  3.0M  789M    1% /run
+/dev/sda5        15G  7.3G  6.8G   52% /
+tmpfs           3.9G   47M  3.9G    2% /dev/shm
+tmpfs           5.0M  4.0K  5.0M    1% /run/lock
+tmpfs           3.9G     0  3.9G    0% /sys/fs/cgroup
+/dev/sda1       1.5G  198M  1.2G   15% /boot
+/dev/sda7       164G   14G  142G    9% /data
+/dev/sda3        14G  6.4G  6.7G   49% /recovery
+tmpfs           792M   56K  792M    1% /run/user/1000
+/dev/sdc1       466G  112M  466G    1% /mnt/sdc1
+/dev/sdb1       117G   61M  111G    1% /media/ldt/6795aa81-b72b-444e-b14d-00b26cee1625
+
+
+
+# 自动挂载写/etc/fstab
+# 1. 先确定硬盘的UUID 查看by-uuid 文件，或 使用dumpe2fs命令
+# 2. 打开/etc/fstable文件，写入挂载命令
+# 3. mount -a 重新挂载
+# 4. 查看是否挂载成功
+ldt@ldt-PC:~$ sudo ls -l /dev/disk/by-uuid/
+lrwxrwxrwx 1 root root 10 4月  11 17:32 0fb7486a-58c6-4105-8269-f67409027fde -> ../../sda3
+lrwxrwxrwx 1 root root 10 4月  11 17:32 6182e24d-1360-4782-89e8-0d471d0fe62d -> ../../sda4
+lrwxrwxrwx 1 root root 10 4月  11 17:32 6795aa81-b72b-444e-b14d-00b26cee1625 -> ../../sdb1
+lrwxrwxrwx 1 root root 10 4月  11 17:32 6db6f121-63ea-4a16-9b9d-4d5b011fe304 -> ../../sda6
+lrwxrwxrwx 1 root root 10 4月  11 17:32 6ea758f4-3fd0-4d8d-8700-e114deddca54 -> ../../sda5
+lrwxrwxrwx 1 root root 10 4月  11 17:32 b94a6331-5efe-4f37-87e5-d915012774bf -> ../../sda1
+lrwxrwxrwx 1 root root 10 4月  11 17:48 BA8E778F8E7742C5 -> ../../sdc1
+lrwxrwxrwx 1 root root 10 4月  11 17:32 fcc5e4ca-dde2-440b-9627-65f268eab010 -> ../../sda7
+ldt@ldt-PC:~$ sudo vim /etc/fstab 
+
+ldt@ldt-PC:~$ sudo dumpe2fs /dev/sdb1 | grep UUID
+dumpe2fs 1.44.5 (15-Dec-2018)
+Filesystem UUID:          6795aa81-b72b-444e-b14d-00b26cee1625
+
+
+ldt@ldt-PC:~$  sudo vim /etc/fstab 
+# 添加挂载/dev/sdb1
+UUID=6795aa81-b72b-444e-b14d-00b26cee1625      /mnt/sdb1        ext4            rw,relatime     0 2
+
+# 第四个字段是挂载参数，这个参数和 mount 命令的挂载参数一致。
+# 第五个字段表示“指定分区是否被 dump 备份”，0 代表不备份，1 代表备份，2 代表不定期备份。
+# 第六个字段表示“指定分区是否被 fsck 检测”，0 代表不检测，其他数字代表检测的优先级，1 的优先级比 2 高。所以先检测 1 的分区，再检测 2 的分区。一般分区的优先级是 1，其他分区的优先级是 2。
+
+ldt@ldt-PC:~$ sudo mount -a
+ldt@ldt-PC:~$ df -h
+文件系统        容量  已用  可用 已用% 挂载点
+udev            3.9G  4.0K  3.9G    1% /dev
+tmpfs           792M  3.0M  789M    1% /run
+/dev/sda5        15G  7.3G  6.8G   52% /
+tmpfs           3.9G   44M  3.9G    2% /dev/shm
+tmpfs           5.0M  4.0K  5.0M    1% /run/lock
+tmpfs           3.9G     0  3.9G    0% /sys/fs/cgroup
+/dev/sda1       1.5G  198M  1.2G   15% /boot
+/dev/sda7       164G   14G  142G    9% /data
+/dev/sda3        14G  6.4G  6.7G   49% /recovery
+tmpfs           792M   56K  792M    1% /run/user/1000
+/dev/sdc1       466G  112M  466G    1% /mnt/sdc1
+/dev/sdb1       117G   61M  111G    1% /mnt/sdb1
+
+
+
+```
+
++ 同步相关命令
+
+```shell
+#增量同步命令rsync
+#将C++目录同步到sdc1/work下, C++/ 代表同步该目录下的所有内容, C++代表一同将本目录也同步
+ldt@ldt-PC:~$ rsync -avz C++ /mnt/sdc1/work/
+
+```
+
++ 创建链接
+
+```shell
+# ln -s 代表创建软连接，相当于一个快捷方式,不加-s 参数创建一个硬连接
+# 注意：路径不同使用绝对路径
+ldt@ldt-PC:~$ ln -s /home/ldt/Documents/linux.md Desktop/
+ldt@ldt-PC:~$ ls -l Desktop/
+总用量 4
+lrwxrwxrwx 1 ldt ldt  28 4月  11 18:56 linux.md -> /home/ldt/Documents/linux.md
+-rw-r--r-- 1 ldt ldt 148 4月  10 18:02 tmp.txt
+
+```
+
++ 文件恢复
+
+```shell
+
+```
+
