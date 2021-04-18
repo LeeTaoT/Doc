@@ -296,6 +296,8 @@ origin  git@github.com:michaelliao/learn-git.git (push)
 $ git remote rm origin
 
 
+
+
 ## 从远程仓库中拉分支
 $ git clone https://github.com/Title0A/Doc.git doc                                                                                       
 正克隆到 'doc'...
@@ -311,6 +313,37 @@ remote: Total 14 (delta 4), reused 14 (delta 4), pack-reused 0
 ### 首先在github创建并初始化一个仓库
 ### 然后本地clone 
 $ git clone git@github.com:michaelliao/gitskills.git
+
+
+## Git 上传一直需要输入用户名，密码问题
+## 是因为git clone 时使用HTTP导致的, 切换成ssh协议即可
+$ git remote -v            
+origin  https://github.com/Title0A/Doc.git (fetch)
+origin  https://github.com/Title0A/Doc.git (push)
+$ git remote rm origin                                                                                                                     $ git remote -v                                                                                                                             $ git remote add origin git@github.com:Title0A/Doc.git                                                                                     $ git remote -v                    
+origin  git@github.com:Title0A/Doc.git (fetch)
+origin  git@github.com:Title0A/Doc.git (push)
+$ git pull                                                                                                                                 
+The authenticity of host 'github.com (192.30.255.113)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes 
+Warning: Permanently added 'github.com' (RSA) to the list of known hosts.
+来自 github.com:Title0A/Doc
+ * [新分支]          main       -> origin/main
+当前分支没有跟踪信息。
+请指定您要合并哪一个分支。
+详见 git-pull(1)。
+
+    git pull <远程> <分支>
+
+如果您想要为此分支创建跟踪信息，您可以执行：
+
+    git branch --set-upstream-to=origin/<分支> main
+
+
+$ git push origin main                                                                                                                     
+Everything up-to-date
 ```
 
 ### git 上传图片问题 
