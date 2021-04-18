@@ -308,12 +308,10 @@ remote: Total 14 (delta 4), reused 14 (delta 4), pack-reused 0
 
 
 
-### 首先在github创建并初始化一个仓库，如图4.1
+### 首先在github创建并初始化一个仓库
 ### 然后本地clone 
 $ git clone git@github.com:michaelliao/gitskills.git
 ```
-
-![图4.1](/home/ldt/.config/Typora/typora-user-images/image-20210418210419246.png)
 
 ### git 上传图片问题 
 
