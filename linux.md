@@ -297,13 +297,27 @@ $ git remote rm origin
 
 
 ## 从远程仓库中拉分支
+$ git clone https://github.com/Title0A/Doc.git doc                                                                                       
+正克隆到 'doc'...
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 14 (delta 4), reused 14 (delta 4), pack-reused 0
+接收对象中: 100% (14/14), 10.26 KiB | 109.00 KiB/s, 完成.
+处理 delta 中: 100% (4/4), 完成.
 
 
-### 首先在github创建并初始化一个仓库如图4.1
+
+### 首先在github创建并初始化一个仓库，如图4.1
 ### 然后本地clone 
 $ git clone git@github.com:michaelliao/gitskills.git
-
-
 ```
 
 ![图4.1](/home/ldt/.config/Typora/typora-user-images/image-20210418210419246.png)
+
+### git 上传图片问题 
+
+要将图片作为资源上传至Github上，md文档在本地插入的图片只是一个本地链接
+
+
+
