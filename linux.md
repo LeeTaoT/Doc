@@ -1,5 +1,10 @@
-```shell
 
+
+## 命令使用
+
+### 进程与文件使用命令
+
+```shell
 
 # 查看文件被那些进程调用使用
 ldt@ldt-PC:~$ fuser -v /mnt/sdc1
@@ -41,7 +46,7 @@ systemd   1 root NOFD                                /proc/1/fd (opendir: Permis
 
 ```
 
-+ 挂载相关命令
+###  挂载相关命令
 
 ```shell
 #查看挂载点
@@ -112,7 +117,7 @@ tmpfs           792M   56K  792M    1% /run/user/1000
 
 ```
 
-+ 同步相关命令
+### 同步相关命令
 
 ```shell
 #增量同步命令rsync
@@ -121,7 +126,7 @@ ldt@ldt-PC:~$ rsync -avz C++ /mnt/sdc1/work/
 
 ```
 
-+ 创建链接
+### 创建链接
 
 ```shell
 # ln -s 代表创建软连接，相当于一个快捷方式,不加-s 参数创建一个硬连接
@@ -134,9 +139,103 @@ lrwxrwxrwx 1 ldt ldt  28 4月  11 18:56 linux.md -> /home/ldt/Documents/linux.md
 
 ```
 
-+ 文件恢复
+### 解压											
 
 ```shell
+##解压到.tar.gz 到当前home目录
+ldt@ldt-PC:~/C++/mytest$ tar zxvf ~/Downloads/src.3e.tar.gz -C  ~
+
+```
+
+
+
+
+
+## VIM使用
+
+> 关于VIM的一些常用技巧
+
+### 与系统剪切版的交互
+
+```shell
+##1.查看vim是否支持clipboard, "-"代表不支持
+   ~/Documents $ vim --version| grep clipboard                                                                             
+-clipboard         +jumplist          +popupwin          +user_commands
++ex_extra          -mouse_jsbterm     -sun_workshop      -xterm_clipboard
+#2.下载gvim
+[ldt@ldt-tobefilledbyoem ~]$ sudo pacman -S gvim #卸载VIM选择y
+
+[ldt@ldt-tobefilledbyoem ~]$ vim --version| grep clipboard                                                                                             ✔  10s  
++clipboard         +jumplist          +popupwin          +user_commands
++ex_extra          -mouse_jsbterm     -sun_workshop      +xterm_clipboard
+
+
+#3.从剪切版copy
+[ldt@ldt-tobefilledbyoem ~]$ vim test.txt  #进入vim
+> normal 模式
+:reg  #查看寄存器里的内容, 重点关注 "+ 与 "* 寄存器
+> visiual模式
+"+ p        #将 "+ 寄存器的内容p上
+#4.copy 到剪切版上
+> visiual模式
+"+ y       #将 内容copy 到 "+ 寄存器上
+
+
+# 在vim中进入visual视图后使用"Ny(N表示特定寄存器编好)，将内容复制到特定的剪切板
+# "*和"+有什么差别呢？ "* 是在系统剪切板中表示选择的内容， "+ 是在系统剪切板中表示选择后Ctrl+c复制的内容
+
+
+```
+
+
+
+
+
+| 表示符号                  |                  名称                  | 作用                                                         |
+| :------------------------ | :------------------------------------: | :----------------------------------------------------------- |
+| `""`                      |         无名（unnamed）寄存器          | 缓存最后一次操作内容                                         |
+| `"0` ～ `"9`              |         数字（numbered）寄存器         | 缓存最近操作内容，复制与删除有别，`"0`寄存器缓存最近一次复制的内容，`"1`-`"9`缓存最近9次删除内容 |
+| `"-`                      |     行内删除（small delete）寄存器     | 缓存行内删除内容                                             |
+| `“a` ～ `"z`或`"A` - `”Z` |          具名（named）寄存器           | 可用于主动指定                                               |
+| `":`, `".`, `"%`, `"#`    |        只读（read-only）寄存器         | 分别缓存最近命令、最近插入文本、当前文件名、当前交替文件名   |
+| `"=`                      |       表达式（expression）寄存器       | 用于执行表达式命令                                           |
+| `"*`, `"+`, `"~`          | 选择及拖拽（selection and drop）寄存器 | 存取GUI选择文本，可用于与外部应用交互                        |
+| `"_`                      |        黑洞（black hole）寄存器        | 不缓存操作内容（干净删除）                                   |
+| `"/`                      |   模式寄存器（last search pattern）    | 缓存最近的搜索模式                                           |
+
+
+
+##  VScode 设置
+
+###  常用插件安装
+
++ C/C++
++ Shades of Purple       #主题
++ VIM                              # VIM插件
++ One Dark Pro            # 主题
++ vscode-icons             #图标
+
+
+
+## Git 使用
+
+```shell
+
+## git 命令没法自动补全
+
+# 1.下载git-completion.bash
+# 2.将.bash 文件放到 ~/.git-completion.bash 中
+# 3.配置~/.bashrc 配置文件，并生效
+[ldt@ldt-tobefilledbyoem ~]$ git clone  https://github.com/git/git.git
+[ldt@ldt-tobefilledbyoem ~]$ cp git/contrib/completion/git-completion.bash  ~/.git-completion.bash
+> vim ~.bashrc
+if [ -f ~/.git-completion.bash ]; then
+. ~/.git-completion.bash
+fi
+[ldt@ldt-tobefilledbyoem ~]$ source .bashrc
+
+
+
 
 ```
 
