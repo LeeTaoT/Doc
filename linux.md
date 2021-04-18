@@ -237,5 +237,73 @@ fi
 
 
 
+
 ```
 
+### git 远程仓库
+
+```shell
+## 创建ssh-key 
+## 并将公钥添加到仓库中，全选择默认即可
+ldt@ldt-PC:~$ ssh-keygen -t rsa -C "3111824424@qq.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ldt/.ssh/id_rsa): 
+Created directory '/home/ldt/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/ldt/.ssh/id_rsa.
+Your public key has been saved in /home/ldt/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:gjjMynY4k6b6ZmxS8s3wpcR5gh/llLtRTkmKxHptlio 3111824424@qq.com
+The key's randomart image is:
++---[RSA 2048]----+
+|   .             |
+|    o   .        |
+|   o o = .       |
+| o..o.X +        |
+|  =+.O.=S        |
+|o.E.B *..        |
+|.& X * o         |
+|= X * .          |
+|+*.              |
++----[SHA256]-----+
+ldt@ldt-PC:~$ cat  ~/.ssh/id_rsa.pub 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtmHnfLV3vf+/a0euDbJbF3lwj1+E1eSOluq/qWL4gumvwi2tuoLmry0+VK+WNpXAvk1ad4ph0eEOQgEbOS+tVNCMho8mA7O8qgZoiXg26PYV5DDe67mTLlr3lp+AXDu7IQId19y/cmCWWSFCQSNHOBC1OXCs7+o1An062zEjJq2nl6OfOvku6UpZpe6HG1NpbNj5mkDn+dhldggvdmadKnOyK+3AXq8BzcUc0ueMow+B92lOCafziFhXo4OCXuEl0VeDo3GILQKi5neti4a6ppsJs0/aDzvcAWAnN7qkxftxE9tqy0+JlTjKjNamvB1z+I2NxeNy6WKGFn4j0Gz5T 3111824424@qq.com
+
+
+## 创建一个本地仓库，添加readme文件
+## 将本地仓库与远程仓库联系起来
+## 将本地仓库的代码提交到远程仓库
+
+ldt@ldt-PC:~$ echo "# Doc" >> README.md
+ldt@ldt-PC:~$ git init
+ldt@ldt-PC:~$ git add README.md
+ldt@ldt-PC:~$ git commit -m "first commit"
+ldt@ldt-PC:~$ git branch -M main             ## 切换到main分支
+ldt@ldt-PC:~$ git remote add origin https://github.com/Title0A/Doc.git ##将本地仓库与远程仓库联系起来
+ldt@ldt-PC:~$ git push -u origin main  ##提交远程仓库
+
+## 删除远程库
+
+## 如果添加的时候地址写错了，或者就在本地删除远程库，可以用git remote rm <name>命令。使用前，建议先用git remote -v查看远程库信息：
+
+$ git remote -v
+origin  git@github.com:michaelliao/learn-git.git (fetch)
+origin  git@github.com:michaelliao/learn-git.git (push)
+
+然后，根据名字删除，比如删除origin：
+
+$ git remote rm origin
+
+
+## 从远程仓库中拉分支
+
+
+### 首先在github创建并初始化一个仓库如图4.1
+### 然后本地clone 
+$ git clone git@github.com:michaelliao/gitskills.git
+
+
+```
+
+![图4.1](/home/ldt/.config/Typora/typora-user-images/image-20210418210419246.png)
