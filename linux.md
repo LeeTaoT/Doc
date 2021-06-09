@@ -214,6 +214,81 @@ ldt@ldt-PC:~/C++/mytest$ tar zxvf ~/Downloads/src.3e.tar.gz -C  ~
 + VIM                              # VIM插件
 + One Dark Pro            # 主题
 + vscode-icons             #图标
++ cmake                        # cmake工具
++ cmake-tool           
+
+### 调试.json
+
+```json
+{
+    //launch json
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        
+        {
+            "name": "g++ - 生成和调试活动文件",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/build/helloworld",  //调试时调试的可执行文件路径
+            "args": [],                                    //程序运行时命令行的入参
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",                      
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            //"preLaunchTask": "C/C++: g++ 生成活动文件", 
+            //调试之前需要做的任务,如下task.json标签
+            "miDebuggerPath": "/usr/bin/gdb"  //使用的gdb 路径
+        }
+    ]
+}
+```
+
+
+
+```json
+
+{
+    //task.json
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ 生成活动文件", // lanch.json 调用的对象标签
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}" 
+                //对应这条命令 g++ main.cpp ... -o helloworld 
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "调试器生成的任务。"
+        }
+    ],
+    "version": "2.0.0"
+}
+```
 
 
 
@@ -349,6 +424,4 @@ Everything up-to-date
 ### git 上传图片问题 
 
 要将图片作为资源上传至Github上，md文档在本地插入的图片只是一个本地链接
-
-
 

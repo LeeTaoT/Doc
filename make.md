@@ -234,10 +234,6 @@ gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE   -c -o sleep.o sleep.c
 make[1]: 离开目录“/home/ldt/apue.3e/lib”
 making intro
 make[1]: 进入目录“/home/ldt/apue.3e/intro”
-gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  getcputc.c -o getcputc  -L../lib -lapue 
-gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  hello.c -o hello  -L../lib -lapue 
-gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  ls1.c -o ls1  -L../lib -lapue 
-gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  mycat.c -o mycat  -L../lib -lapue 
 gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  shell1.c -o shell1  -L../lib -lapue 
 gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  shell2.c -o shell2  -L../lib -lapue 
 gcc -ansi -I../include -Wall -DLINUX -D_GNU_SOURCE  testerror.c -o testerror  -L../lib -lapue 
@@ -269,8 +265,21 @@ making fileio
 
 ldt@ldt-PC:~/apue.3e$ 
 
-
-
-
 ```
+
+### 3. CMake编译过程
+
++ 简单的CMake编写
+
+> CMake 是通过CMakeLists.txt文档进行makefile文件编写的
+
+在工程目录下创建 CMakeLists.txt 编写
+
+```cmake
+project(HelloWorld)   ##创建工程名
+add_executable(helloworld helloworld.cc swap.cc) 
+#添加可执行文件helloworld 依赖于hellowold.cc与swap.cc
+```
+
+
 
