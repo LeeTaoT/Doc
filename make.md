@@ -281,5 +281,20 @@ add_executable(helloworld helloworld.cc swap.cc)
 #添加可执行文件helloworld 依赖于hellowold.cc与swap.cc
 ```
 
+```shell
+ldt@ldt-PC:~/cmake$ mkdir build
+ldt@ldt-PC:~/cmake$ cd build/     
+ldt@ldt-PC:~/cmake/build$ cmake ..
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ldt/cmake/build
+ldt@ldt-PC:~/cmake/build$ make
+Scanning dependencies of target helloworld
+[ 33%] Building CXX object CMakeFiles/helloworld.dir/helloworld.cc.o
+[ 66%] Linking CXX executable helloworld
+[100%] Built target helloworld
+ldt@ldt-PC:~/cmake/build$ 
+```
+
 
 
