@@ -249,7 +249,7 @@ ldt@ldt-PC:~/C++/mytest$ tar zxvf ~/Downloads/src.3e.tar.gz -C  ~
             ],
             //"preLaunchTask": "C/C++: g++ 生成活动文件", 
             //调试之前需要做的任务,如下task.json标签
-            "miDebuggerPath": "/usr/bin/gdb"  //使用的gdb 路径
+            "miDebuggerPath": "/usr/bin/gdb"  //使用的gdb 路径		
         }
     ]
 }
@@ -273,6 +273,15 @@ ldt@ldt-PC:~/C++/mytest$ tar zxvf ~/Downloads/src.3e.tar.gz -C  ~
                 "${fileDirname}/${fileBasenameNoExtension}" 
                 //对应这条命令 g++ main.cpp ... -o helloworld 
             ],
+          /* arg 参数可正常修改成命令行编译时的参数   
+          "args": [
+                "-g",
+                "helloworld.cc",
+                "swap.cc",
+                "-o",
+                "${fileDirname}/build/helloworld"
+            ],
+            */
             "options": {
                 "cwd": "${fileDirname}"
             },
@@ -290,7 +299,57 @@ ldt@ldt-PC:~/C++/mytest$ tar zxvf ~/Downloads/src.3e.tar.gz -C  ~
 }
 ```
 
+### 将cmake步骤放入task.json
 
+```json
+
+    "tasks": [
+       {
+            "type": "shell",
+            "label": "cmake",      //cmake task
+            "command":"cmake",     // cmake ..
+            "args": [
+                ".."
+            ]
+        },
+        {
+
+            "label": "make",       //make task
+            "group": {             
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "make",       //make
+            "args": [
+
+            ]
+        },
+        {
+            "label": "Build",  //lanuch.json调用Build任务
+            "dependsOn" :[
+                "cmake",       //Build依赖于cmake task 和 make task
+                "make"
+            ]
+            
+        }
+
+    ],
+    "version": "2.0.0",
+    "options": {
+        "cwd": "${workspaceFolder}/build"   // cd build
+    },
+}
+```
+
+
+
+
+
+
+
+
+
+​	
 
 ## Git 使用
 
