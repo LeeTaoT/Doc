@@ -484,7 +484,7 @@ Everything up-to-date
 
 要将图片作为资源上传至Github上，md文档在本地插入的图片只是一个本地链接
 
-## ssh开启
+### ssh开启
 ```shell
 # 开启ssh服务
 ldt@MiWiFi-RA69-srv:~$ /etc/init.d/ssh status
@@ -507,5 +507,43 @@ ldt@MiWiFi-RA69-srv:~$ systemctl status ssh
 #添加到开机自启动
 ldt@MiWiFi-RA69-srv:~$ systemctl enable ssh
 
+```
+### Debain 关闭休眠模式
+```shell
 
-````
+#查看休眠状态
+ldt@MiWiFi-RA69-srv:~$ systemctl status sleep.target
+● sleep.target - Sleep
+     Loaded: loaded (/lib/systemd/system/sleep.target; static)
+     Active: inactive (dead)
+       Docs: man:systemd.special(7)
+#关闭休眠状态
+ldt@MiWiFi-RA69-srv:~$ systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target 
+Created symlink /etc/systemd/system/sleep.target → /dev/null.
+Created symlink /etc/systemd/system/suspend.target → /dev/null.
+Created symlink /etc/systemd/system/hibernate.target → /dev/null.
+Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
+#查看
+ldt@MiWiFi-RA69-srv:~$ systemctl status sleep.target
+● sleep.target
+     Loaded: masked (Reason: Unit sleep.target is masked.)
+     Active: inactive (dead)
+ldt@MiWiFi-RA69-srv:~$ 
+
+```
+
+
+#### 了解一下sleep任务
+
++ systemd 支持四种休眠模式：
+  + suspend
+  休眠到内存。 操作系统停止运行， 如果主机失去电力 将会导致数据丢失， 但是休眠和唤醒速度很快。 这对应于内核的 suspend, standby, freeze 状态。
+  + hibernate
+  休眠到硬盘。 操作系统停止运行， 即使主机失去电力 也不会导致数据丢失， 但是休眠和唤醒速度很慢。 这对应于内核的 hibernation 状态。
+  + hybrid-sleep
+  混合休眠(同时休眠到内存和硬盘)。 操作系统停止运行， 如果主机一直没有失去电力， 那么休眠和唤醒速度很快。 如果主机失去电力， 那么休眠和唤醒速度很慢，但是不会导致数据丢失。 这对应于内核的 suspend-to-both 状态。
+  + suspend-then-hibernate
+  两阶段休眠(先休眠到内存再休眠到硬盘)。 系统首先休眠到内存，如果经过 HibernateDelaySec= 时长之后仍然没有任何操作， 那么系统将会被 RTC 警报唤醒并立即休眠到硬盘。
+
+推荐阅读
+systemd-sleep         http://www.jinbuguo.com/systemd/systemd-sleep.conf.html 
