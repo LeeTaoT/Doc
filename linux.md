@@ -484,3 +484,28 @@ Everything up-to-date
 
 要将图片作为资源上传至Github上，md文档在本地插入的图片只是一个本地链接
 
+## ssh开启
+```shell
+# 开启ssh服务
+ldt@MiWiFi-RA69-srv:~$ /etc/init.d/ssh status
+# 查看ssh服务
+ldt@MiWiFi-RA69-srv:~$ systemctl status ssh
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: e>
+     Active: active (running) since Sun 2022-01-09 21:20:04 CST; 7min ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 5697 ExecStartPre=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+   Main PID: 5698 (sshd)
+      Tasks: 1 (limit: 9425)
+     Memory: 1.1M
+        CPU: 15ms
+     CGroup: /system.slice/ssh.service
+             └─5698 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+
+
+#添加到开机自启动
+ldt@MiWiFi-RA69-srv:~$ systemctl enable ssh
+
+
+````
