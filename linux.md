@@ -547,3 +547,22 @@ ldt@MiWiFi-RA69-srv:~$
 
 推荐阅读
 systemd-sleep         http://www.jinbuguo.com/systemd/systemd-sleep.conf.html 
+
+
+### 设置开机启动字符界面
+```shell
+
+#获取默认启动设置
+ldt@MiWiFi-RA69-srv:~$ systemctl get-default 
+graphical.target
+
+#设置字符启动界面
+ldt@MiWiFi-RA69-srv:~$ sudo systemctl set-default multi-user.target 
+Created symlink /etc/systemd/system/default.target → /lib/systemd/system/multi-user.target.
+
+#可能需要修改
+$sudo vim etc/default/grub
+#GRUB_CMDLINE_LINUX=""
+GRUB_CMDLINE_LINUX="text"
+
+```
