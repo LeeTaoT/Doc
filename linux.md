@@ -561,8 +561,9 @@ ldt@MiWiFi-RA69-srv:~$ sudo systemctl set-default multi-user.target
 Created symlink /etc/systemd/system/default.target → /lib/systemd/system/multi-user.target.
 
 #可能需要修改
-$sudo vim etc/default/grub
+ldt@MiWiFi-RA69-srv:~$ sudo vim etc/default/grub
 #GRUB_CMDLINE_LINUX=""
 GRUB_CMDLINE_LINUX="text"
+ldt@MiWiFi-RA69-srv:~$ sudo update-grub
 
 ```
