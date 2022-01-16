@@ -567,3 +567,37 @@ GRUB_CMDLINE_LINUX="text"
 ldt@MiWiFi-RA69-srv:~$ sudo update-grub
 
 ```
+## clang/llvm 编译器
+```shell
+ldt@aml:~$ sudo apt install clang
+ldt@aml:~$ sudo apt install llvm
+
+#切换默认C++编译器
+ldt@aml:~$ sudo update-alternatives --config c++
+[sudo] password for ldt:
+There are 2 choices for the alternative c++ (providing /usr/bin/c++).
+
+  Selection    Path              Priority   Status
+------------------------------------------------------------
+* 0            /usr/bin/g++       20        auto mode
+  1            /usr/bin/clang++   10        manual mode
+  2            /usr/bin/g++       20        manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 1
+update-alternatives: using /usr/bin/clang++ to provide /usr/bin/c++ (c++) in manual mode
+ldt@aml:~$
+ldt@aml:~$
+
+#切换默认C编译器
+ldt@aml:~$ sudo update-alternatives --config cc
+There are 2 choices for the alternative cc (providing /usr/bin/cc).
+
+  Selection    Path            Priority   Status
+------------------------------------------------------------
+* 0            /usr/bin/gcc     20        auto mode
+  1            /usr/bin/clang   10        manual mode
+  2            /usr/bin/gcc     20        manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 1
+update-alternatives: using /usr/bin/clang to provide /usr/bin/cc (cc) in manual mode
+```
