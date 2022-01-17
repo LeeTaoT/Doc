@@ -601,3 +601,30 @@ There are 2 choices for the alternative cc (providing /usr/bin/cc).
 Press <enter> to keep the current choice[*], or type selection number: 1
 update-alternatives: using /usr/bin/clang to provide /usr/bin/cc (cc) in manual mode
 ```
+### 使用update-alternatives 软件管理多版本
+```shell
+
+# 在update-alternatives注册clang/clang++
+$ sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 0
+update-alternatives: using /usr/bin/clang++-6.0 to provide /usr/bin/clang++ (clang++) in auto mode
+
+$ sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 0
+update-alternatives: using /usr/bin/clang-6.0 to provide /usr/bin/clang (clang) in auto mode
+
+# --install 注册
+# /usr/bin/clang  --- link是在/usr/bin/,/usr/local/bin/等默认PATH搜索目录
+# clang -- name是在/etc/alternatives目录中的链接名
+# /usr/bin/clang-6.0 0 path是真正的可执行程序的位置,
+# 0 priority是优先级,数字越大越优先
+
+# 打印名字的相关链接:
+$ sudo update-alternatives --display name
+# 配置名字的相关链接:
+$ sudo update-alternatives --config name
+# 移除名字的相关链接:
+$ sudo update-alternatives --remove name path
+# 因为优先级的存在,可以为同一个name设置多个path,当删除一个path后,默认连接到slave上.
+# 移除所有名字相关的链接:
+$ sudo update-alternatives --remove-all name
+
+```
